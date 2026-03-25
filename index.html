@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUANG ĐẠI - NES RETRO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #bc13fe; 
+            --secondary: #00f3ff;
+            --dark-bg: #0a0a0c;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: #e0e0e0;
+            font-family: 'Lexend', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, rgba(0, 243, 255, 0.05), transparent);
+            animation: radarScan 8s infinite linear;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes radarScan {
+            0% { top: -10% }
+            100% { top: 110% }
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
+            animation: floatParticle 20s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+
+        .top-status {
+            position: absolute;
+            top: 20px;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 9px;
+            color: var(--secondary);
+            text-shadow: 0 0 5px var(--secondary);
+            opacity: 0.6;
+            z-index: 5;
+        }
+
+        .grid-floor {
+            position: absolute;
+            bottom: 0;
+            width: 200%;
+            height: 45%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, var(--primary) 25%, var(--primary) 26%, transparent 27%, transparent 74%, var(--primary) 75%, var(--primary) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, var(--primary) 25%, var(--primary) 26%, transparent 27%, transparent 74%, var(--primary) 75%, var(--primary) 76%, transparent 77%, transparent);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(60deg);
+            opacity: 0.2;
+            animation: moveGrid 2s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes moveGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 60px; }
+        }
+
+        .retro-decor {
+            position: absolute;
+            color: var(--primary);
+            opacity: 0.25;
+            font-size: 2.5rem;
+            animation: floating 6s ease-in-out infinite;
+            z-index: 1;
+        }
+        .icon-1 { top: 15%; left: 5%; }
+        .icon-2 { bottom: 20%; left: 5%; color: var(--secondary); }
+        .icon-3 { top: 20%; right: 5%; color: var(--secondary); }
+        .icon-4 { bottom: 25%; right: 5%; }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(15deg); }
+        }
+
+        .main-container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+            background: rgba(10, 10, 12, 0.7); 
+            padding: 40px 50px;
+            border-radius: 40px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(188, 19, 254, 0.2);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 
+                        inset 0 0 20px rgba(188, 19, 254, 0.1);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .game-icon {
+            font-size: 70px; 
+            background: linear-gradient(to bottom, var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            cursor: pointer;
+            display: inline-block;
+            animation: retroWobble 2s infinite ease-in-out, iconGlow 2s infinite alternate ease-in-out;
+            transition: 0.3s;
+        }
+
+        @keyframes retroWobble {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.05); }
+        }
+
+        @keyframes iconGlow {
+            from { filter: drop-shadow(0 0 5px var(--secondary)); }
+            to { filter: drop-shadow(0 0 20px var(--primary)); }
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            margin: 0 0 10px 0;
+            color: #fff;
+            animation: titleGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary); }
+            50% { text-shadow: 0 0 20px var(--primary), 2px 2px 0px #ff0055; }
+        }
+
+        .dev-tag {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--secondary);
+            font-size: 0.6rem;
+            margin-bottom: 35px;
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-upload {
+            background: rgba(188, 19, 254, 0.15);
+            border: 3px solid var(--primary);
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            animation: buttonPulse 2s infinite ease-in-out;
+        }
+
+        .btn-upload:hover {
+            background: var(--primary);
+            box-shadow: 0 0 40px var(--primary);
+            transform: scale(1.02);
+        }
+
+        .btn-github {
+            background: rgba(0, 243, 255, 0.1);
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+            padding: 12px 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 80%;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-github:hover {
+            background: var(--secondary);
+            color: var(--dark-bg);
+            box-shadow: 0 0 30px var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { box-shadow: 0 0 5px var(--primary); }
+            50% { box-shadow: 0 0 20px var(--primary); }
+        }
+
+        .browser-warning {
+            margin-top: 20px;
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .guide-box {
+            margin-top: 25px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            text-align: left;
+            font-size: 0.8rem;
+            cursor: help;
+        }
+
+        .key-val { color: var(--secondary); font-family: monospace; font-weight: bold; }
+
+        .signature {
+            position: fixed;
+            bottom: 25px;
+            right: 30px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 7px;
+            opacity: 0.3;
+            color: var(--primary);
+        }
+
+        .corner-decor {
+            position: fixed;
+            width: 80px; height: 80px;
+            border: 2px solid var(--primary);
+            opacity: 0.2;
+            z-index: 1;
+        }
+        .top-left { top: 40px; left: 40px; border-right: 0; border-bottom: 0; }
+        .bottom-right { bottom: 40px; right: 40px; border-left: 0; border-top: 0; }
+
+        #file-input { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="particles-container"></div>
+    <div class="corner-decor top-left"></div>
+    <div class="corner-decor bottom-right"></div>
+
+    <div class="top-status">
+        <div><i class="fas fa-microchip"></i> SYSTEM: READY</div>
+        <div><i class="fas fa-bolt"></i> V-SYNC: 60 FPS</div>
+    </div>
+
+    <div class="grid-floor"></div>
+
+    <i class="fa-solid fa-ghost retro-decor icon-1"></i>
+    <i class="fa-solid fa-robot retro-decor icon-2"></i>
+    <i class="fa-solid fa-rocket retro-decor icon-3"></i>
+    <i class="fa-solid fa-gamepad retro-decor icon-4"></i>
+
+    <div class="main-container" id="ui-wrapper">
+        <div class="game-icon" id="main-icon-container">
+            <i class="fa-solid fa-ghost"></i>
+        </div>
+        
+        <h1>NES EMULATOR</h1>
+        <div class="dev-tag">RETRO 8-BIT EXPERIENCE</div>
+
+        <div class="button-group">
+            <input type="file" id="file-input" accept=".nes">
+            <button class="btn-upload" onclick="triggerUpload()" id="start-btn">
+                <i class="fa-solid fa-bolt" style="margin-right: 10px;"></i> CHỌN ROM VÀ CHIẾN
+            </button>
+
+            <a href="https://github.com/qdai1912/nes-qdai/tree/main/roms" target="_blank" class="btn-github" id="github-btn">
+                <i class="fa-brands fa-github"></i> KHO ROM GITHUB
+            </a>
+        </div>
+
+        <div class="browser-warning">
+            <i class="fa-solid fa-circle-info"></i> Tương thích tốt nhất trên Edge & Chrome
+        </div>
+
+        <div class="guide-box" id="guide-box">
+            <div class="key-info"><span>D-Pad:</span> <span class="key-val">Mũi tên</span></div>
+            <div class="key-info"><span>Nút A/B:</span> <span class="key-val">X / Z</span></div>
+            <div class="key-info"><span>Start:</span> <span class="key-val">Enter</span></div>
+            <div class="key-info"><span>Select:</span> <span class="key-val">Shift</span></div>
+        </div>
+    </div>
+
+    <div class="signature">DESIGNED BY QUANG DAI</div>
+
+    <script src="https://unpkg.com/nostalgist"></script>
+    <script>
+        const pContainer = document.getElementById('particles-container');
+        for(let i=0; i<15; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 4 + 1 + 'px';
+            p.style.width = size;
+            p.style.height = size;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDelay = Math.random() * 20 + 's';
+            p.style.background = i % 2 === 0 ? 'var(--primary)' : 'var(--secondary)';
+            pContainer.appendChild(p);
+        }
+
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function play8BitSound(freq, type, duration, volume = 0.1, slideTo = null) {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                if (slideTo) {
+                    osc.frequency.exponentialRampToValueAtTime(slideTo, audioCtx.currentTime + duration);
+                }
+                gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        
+        const sounds = {
+            upload: () => play8BitSound(440, 'square', 0.1, 0.1, 880), // Tiếng bíp vút lên
+            github: () => play8BitSound(660, 'triangle', 0.15, 0.12, 440), // Tiếng trầm nhẹ nhàng
+            guide: () => play8BitSound(220, 'sawtooth', 0.05, 0.08), // Tiếng click chắc chắn
+            start: () => {
+                play8BitSound(523.25, 'square', 0.1, 0.15);
+                setTimeout(() => play8BitSound(659.25, 'square', 0.1, 0.15), 100);
+                setTimeout(() => play8BitSound(783.99, 'square', 0.3, 0.15), 200);
+            }
+        };
+
+        const fileInput = document.getElementById('file-input');
+        const ui = document.getElementById('ui-wrapper');
+        const startBtn = document.getElementById('start-btn');
+        const githubBtn = document.getElementById('github-btn');
+        const guideBox = document.getElementById('guide-box');
+
+        // Gan sự kiện âm thanh
+        startBtn.addEventListener('mouseenter', () => { if(audioCtx.state !== 'closed') sounds.upload(); });
+        githubBtn.addEventListener('mouseenter', () => { if(audioCtx.state !== 'closed') sounds.github(); });
+        guideBox.addEventListener('mouseenter', () => { if(audioCtx.state !== 'closed') sounds.guide(); });
+
+        function triggerUpload() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            fileInput.click();
+        }
+
+        fileInput.onchange = async (e) => {
+            const gameFile = e.target.files[0];
+            if (!gameFile) return;
+
+            sounds.start();
+
+            ui.style.transition = '0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            ui.style.opacity = '0';
+            ui.style.transform = 'scale(1.1) translateY(-30px)';
+            ui.style.filter = 'blur(20px)';
+
+            document.querySelectorAll('.retro-decor, .grid-floor, .top-status, .corner-decor, .particle').forEach(el => {
+                el.style.transition = 'opacity 0.5s';
+                el.style.opacity = '0';
+            });
+
+            setTimeout(async () => {
+                ui.style.display = 'none';
+                try {
+                    await Nostalgist.nes(gameFile);
+                } catch (error) {
+                    alert("Lỗi load ROM: " + error);
+                    location.reload();
+                }
+            }, 800);
+        };
+    </script>
+</body>
+</html>
